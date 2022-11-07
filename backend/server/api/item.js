@@ -41,12 +41,20 @@ const updateItem = async (req, res)=> {
         const { error } = validationHelper.validateUpdateItem(req.body)
         if (error) return reply.InvalidRequest(res, error)
 
-        const publishTimeValid = checkPublishTime(req.body.started_date)
-        if(!publishTimeValid){
-            return reply.badRequest(res, "Publish time at least 1 hour from now")
-        }
-
         const response = await itemHelper.updateItem(req, res)
+        return reply.send(res, response)
+    }catch(err){
+        return reply.errorInternalServer(res,err)
+    }
+}
+
+const updateStatus = async (req, res)=> {
+    try{
+        generalHelper.authValidation(req, res)
+        const { error } = validationHelper.validateUpdateItem(req.body)
+        if (error) return reply.InvalidRequest(res, error)
+
+        const response = await itemHelper.updateStatus(req, res)
         return reply.send(res, response)
     }catch(err){
         return reply.errorInternalServer(res,err)
@@ -69,6 +77,7 @@ const deleteItem = async (req, res)=> {
 router.post('/submit', submitItem)
 router.get('/list', getListItem)
 router.post('/update', updateItem)
+router.post('/update-status', updateStatus)
 router.post('/delete', deleteItem)
 
 module.exports = router;

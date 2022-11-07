@@ -70,6 +70,14 @@ const validateUpdateItem = (data) => {
     return schema.validate(data);
 };
 
+const validateUpdateStatus = (data) => {
+    const schema = Joi.object({
+        itemID: Joi.number().required(),
+        status: Joi.string().required(),
+    });
+    return schema.validate(data);
+};
+
 const validateGetDetail = (data) => {
     const schema = Joi.object({
         itemID: Joi.string().required()
@@ -94,5 +102,6 @@ module.exports = {
     validateSubmitItem,
     validateUpdateItem,
     validateGetDetail,
-    validateDeleteItem
+    validateDeleteItem,
+    validateUpdateStatus
 }

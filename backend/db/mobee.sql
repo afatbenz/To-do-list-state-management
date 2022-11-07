@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 100424
  Source Host           : localhost:3306
- Source Schema         : jitera
+ Source Schema         : mobee
 
  Target Server Type    : MySQL
  Target Server Version : 100424
