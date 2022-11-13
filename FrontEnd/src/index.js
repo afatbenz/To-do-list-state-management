@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Home from './layouts/home';
-import ToDoList from './layouts/ToDoList';
+import ToDoList from './layouts/ToDo';
  
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
