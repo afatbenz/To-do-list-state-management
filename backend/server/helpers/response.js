@@ -71,7 +71,7 @@ const errorInternalServer = (res, err)=>{
         description = description.replace('Error: ', ' ')
         res.status(400).send({status:400, message:description, transactionID:transactionId()})    
     }else{
-        res.status(500).send({status:statusCode, message: description})
+        res.status(code).send({status:statusCode, message: description})
     }
 }
 

@@ -53,8 +53,11 @@ const validateNewPassword = (data) => {
 
 const validateSubmitItem = (data) => {
     const schema = Joi.object({
+        headers: {
+            Authorization: Joi.string().required(),
+        },
         title: Joi.string().required(),
-        description: Joi.string().required()
+        description: Joi.string().optional()
     });
     return schema.validate(data);
 };
@@ -87,6 +90,19 @@ const validateGetDetail = (data) => {
 
 const validateDeleteItem = (data) => {
     const schema = Joi.object({
+        headers: {
+            Authorization: Joi.string().required(),
+        },
+        itemID: Joi.number().required()
+    });
+    return schema.validate(data);
+};
+
+const validateCompletedItem = (data) => {
+    const schema = Joi.object({
+        headers: {
+            Authorization: Joi.string().required(),
+        },
         itemID: Joi.number().required()
     });
     return schema.validate(data);
@@ -103,5 +119,6 @@ module.exports = {
     validateUpdateItem,
     validateGetDetail,
     validateDeleteItem,
-    validateUpdateStatus
+    validateUpdateStatus,
+    validateCompletedItem
 }

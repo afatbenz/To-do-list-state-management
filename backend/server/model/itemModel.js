@@ -22,9 +22,9 @@ const getItemList = (req) => {
         return new Promise( (resolve, reject)=> {
             let condition = ''
             if(req.session.userid){
-                condition = ` WHERE created_by = ${req.session.userid}  `
+                condition = ` AND created_by = ${req.session.userid}  `
             }
-            con.query(`SELECT * FROM item ${condition} `, (err, rows)=>{
+            con.query(`SELECT * FROM item WHERE status < 3 ${condition} `, (err, rows)=>{
                 if(err){
                     return resolve({ code:500, status:'error', err })
                 }

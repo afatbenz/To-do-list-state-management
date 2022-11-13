@@ -16,7 +16,7 @@ const submitItem = async (req, res) => {
             title:           req.body.title,
             description:     req.body.description,
             status: 1,
-            created_by: req.session.userid,
+            created_by: req.session.userid || req.auth.userID,
             created_date: moment().format('YYYY-MM-DD HH:mm:ss')
         }
        
@@ -89,10 +89,27 @@ const updateStatus = async (req, res) => {
 const deleteItem = async (req, res) => {
     try{
         const payloadDelete = { status: 3 }
-        const response = await dbModel.updateQuery(payloadDelete, item, 'id', req.body.itemID)
+
+        const response = await dbModel.updateQuery(payloadDelete, 'item', 'id', req.body.itemID)
         if(response.code === 200){
             response.message = 'Item deleted successfully'
         }
+        return response;
+    }catch(error){
+        throw new Error(error)
+    }
+}
+
+const completedItem = async (req, res) => {
+    try{
+        const payloadDelete = { status: 2 }
+        console.log("Update Completed ...", req.body)
+        const response = await dbModel.updateQuery(payloadDelete, 'item', 'id', req.body.itemID)
+        console.log("Get Completed ...", response)
+        if(response.code === 200){
+            response.message = 'Item completed successfully'
+        }
+        return response;
     }catch(error){
         throw new Error(error)
     }
@@ -103,5 +120,6 @@ module.exports = {
     getListItem,
     updateItem,
     updateStatus,
-    deleteItem
+    deleteItem,
+    completedItem
 }

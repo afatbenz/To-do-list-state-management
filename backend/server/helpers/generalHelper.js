@@ -7,15 +7,22 @@ const authModel         = require('../model/authModel');
 
 const authValidation = (req, res, skip) => {
     let userID;
+    if(!req.headers.authorization && !req.body.headers['Authorization']){
+        throw {code:401, messaege: `Unauthorized`};
+    }
+    const token = req.headers.authorization || req.body.headers['Authorization']
+
     if(req.session.userid){
         userID = req.session.userid
     }else{
-        const decryptedToken = encryptionHelper.decryptPayload(req.headers.authorization)
+        const decryptedToken = encryptionHelper.decryptPayload(token)
         if(decryptedToken){
-            userID = decryptedToken.id
+            userID = decryptedToken.profile.id
+            req.session.userid = decryptedToken.profile.id;
         }
     }
-    if(!userID && !skip){
+
+    if(!token || (!userID && !skip)){
         throw {code:401, messaege: `Unauthorized`};
     }
     req = { ...req, auth: {userID} }
@@ -44,8 +51,6 @@ const getAccessUser = (response, auth)=> {
         return !!(secretID === ownerID || secretID == 1);
     }catch(err){
     }
-    // console.log(response, auth)
-    // const profile = encryptionHelper.decryptString(auth.profile)
 }
 
 module.exports = {

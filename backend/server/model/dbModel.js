@@ -22,7 +22,6 @@ const updateQuery = (payload, table, ref_field, id) => {
         return new Promise( (resolve, reject)=> {
             con.query(`UPDATE ${table} SET ? WHERE ${ref_field} = '${id}' `, payload, (err, __rows)=>{
                 if(err){
-                    console.log(err)
                     return resolve({ code:500, status:'error' })
                 }
                 return resolve({ code:200, status:'success' })

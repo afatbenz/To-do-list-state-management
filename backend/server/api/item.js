@@ -16,7 +16,7 @@ const submitItem = async (req, res)=> {
         generalHelper.authValidation(req, res)
         const { error } = validationHelper.validateSubmitItem(req.body)
         if (error) return reply.InvalidRequest(res, error)
-
+        
         const response = await itemHelper.submitItem(req, res)
         return reply.send(res, response)
     }catch(err){
@@ -74,10 +74,25 @@ const deleteItem = async (req, res)=> {
     }
 }
 
+const completedItem = async (req, res)=> {
+    try{
+        generalHelper.authValidation(req, res)
+        
+        const { error } = validationHelper.validateCompletedItem(req.body)
+        if (error) return reply.InvalidRequest(res, error)
+
+        const response = await itemHelper.completedItem(req, res)
+        return reply.send(res, response)
+    }catch(err){
+        return reply.errorInternalServer(res,err)
+    }
+}
+
 router.post('/submit', submitItem)
 router.get('/list', getListItem)
 router.post('/update', updateItem)
 router.post('/update-status', updateStatus)
 router.post('/delete', deleteItem)
+router.post('/completed', completedItem)
 
 module.exports = router;

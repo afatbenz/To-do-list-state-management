@@ -42,6 +42,7 @@ const checkUserLogin = async (req, res) => {
         const clientIp      = req.socket.remoteAddress
         const username      = req.body.email
         const password      = req.body.password
+
         const checkDBUser   = await authModel.getLoginMandatory(username)
         if(checkDBUser){
             bcrypt.compare(password, checkDBUser.password, async (__err, valid) => {
@@ -130,7 +131,6 @@ const submitSelfRegister = async (req, res) => {
         const response = await authModel.insertUser(dataUser)
         return response;
     }catch(error){
-        console.log(error)
         throw new Error(error)
     }
 }

@@ -17,7 +17,7 @@ const encryptPayload = (payload, minutes)=>{
 }
 
 const decryptPayload = (payload)=>{
-    payload = payload ? payload.replaceAll(' ', '+') : payload
+    payload = payload
     const encrypted = engineCrypt.decrypt(payload)
     return encrypted
 }

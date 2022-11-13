@@ -9,13 +9,7 @@ const getLoginMandatory = (credential) => {
                 if(err){
                     return reject(err.code)
                 }
-                if(result.length > 0){
-                    const countLogin = result[0].sign_in_count ? result[0].sign_in_count + 1 : 1
-                    queryUpdate({sign_in_count: countLogin }, 'users', 'id', result[0].id)
-                    return resolve(result[0])    
-                }else{
-                    return reject('USER_NOT_FOUND')
-                }
+                return resolve(result[0])
             })
         });
     }catch (err){
